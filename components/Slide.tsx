@@ -46,19 +46,23 @@ const Slide: React.FC<SlideProps> = ({ data }) => {
       {data.bullets && (
         <ul className="space-y-4 mb-8">
           {data.bullets.map((bullet, idx) => {
-             // Basic formatting for bullets too
-             const parts = bullet.split(/(`.*?`)/g);
+             // Parse both **bold** and `code` in bullets
+             const parts = bullet.split(/(\*\*.*?\*\*|`.*?`)/g);
              return (
                 <li key={idx} className="flex items-start gap-3">
                 <span className="flex-shrink-0 w-6 h-6 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold text-sm mt-0.5">
                     {idx + 1}
                 </span>
                 <span className="text-lg text-slate-700 font-medium">
-                    {parts.map((part, pIdx) => (
-                        part.startsWith('`') && part.endsWith('`') 
-                        ? <code key={pIdx} className="bg-slate-200 text-pink-600 px-1 py-0.5 rounded text-sm font-mono">{part.slice(1, -1)}</code> 
-                        : part
-                    ))}
+                    {parts.map((part, pIdx) => {
+                        if (part.startsWith('**') && part.endsWith('**')) {
+                            return <strong key={pIdx} className="font-bold text-slate-900">{part.slice(2, -2)}</strong>;
+                        }
+                        if (part.startsWith('`') && part.endsWith('`')) {
+                            return <code key={pIdx} className="bg-slate-200 text-pink-600 px-1 py-0.5 rounded text-sm font-mono">{part.slice(1, -1)}</code>;
+                        }
+                        return part;
+                    })}
                 </span>
                 </li>
              );
