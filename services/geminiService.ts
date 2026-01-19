@@ -1,7 +1,7 @@
 import { GoogleGenAI, Type } from "@google/genai";
 
 // Initialize Gemini AI
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_API_KEY });
 
 const MODEL_NAME = 'gemini-3-flash-preview';
 
@@ -77,6 +77,7 @@ export const explainCode = async (code: string): Promise<string> => {
     });
     return response.text || "Could not explain code.";
   } catch (error) {
+    console.error("Explain Code Error:", error);
     return "Error explaining code.";
   }
 };
