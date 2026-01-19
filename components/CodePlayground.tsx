@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Play, RotateCcw, MessageSquarePlus } from 'lucide-react';
+import { Play, RotateCcw, MessageSquarePlus, Sparkles } from 'lucide-react';
 import { explainCode } from '../services/geminiService';
+import ReactMarkdown from 'react-markdown';
 
 interface CodePlaygroundProps {
   initialCode: string;
@@ -140,7 +141,7 @@ const CodePlayground: React.FC<CodePlaygroundProps> = ({ initialCode }) => {
                     Console
                 </div>
                 <div className="flex-1 p-3 font-mono text-sm overflow-y-auto">
-                    {logs.length === 0 && !error && (
+                    {logs.length === 0 && !error && !explanation && (
                     <span className="text-slate-600 italic">Console output...</span>
                     )}
                     
@@ -157,9 +158,78 @@ const CodePlayground: React.FC<CodePlaygroundProps> = ({ initialCode }) => {
                     )}
                     
                     {explanation && (
-                        <div className="mt-4 pt-4 border-t border-slate-800 animate-fade-in">
-                            <div className="text-purple-400 text-xs font-bold mb-1 uppercase tracking-wider">AI Explanation</div>
-                            <div className="text-slate-300 text-xs leading-5 whitespace-pre-wrap">{explanation}</div>
+                        <div className="mt-4 animate-fade-in">
+                            {/* AI Explanation Header */}
+                            <div className="flex items-center gap-2 mb-3 pb-2 border-b border-purple-500/30">
+                                <div className="p-1.5 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg">
+                                    <Sparkles size={14} className="text-white" />
+                                </div>
+                                <span className="text-purple-400 text-xs font-bold uppercase tracking-wider">AI Explanation</span>
+                            </div>
+                            
+                            {/* Styled Markdown Content */}
+                            <div className="ai-explanation-content text-slate-300 text-sm leading-relaxed">
+                                <ReactMarkdown
+                                    components={{
+                                        // Headings
+                                        h1: ({children}) => <h1 className="text-lg font-bold text-purple-300 mt-4 mb-2 border-b border-slate-700 pb-1">{children}</h1>,
+                                        h2: ({children}) => <h2 className="text-base font-bold text-purple-300 mt-3 mb-2">{children}</h2>,
+                                        h3: ({children}) => <h3 className="text-sm font-bold text-purple-300 mt-3 mb-1">{children}</h3>,
+                                        
+                                        // Paragraphs
+                                        p: ({children}) => <p className="mb-3 text-slate-300 leading-relaxed">{children}</p>,
+                                        
+                                        // Lists
+                                        ul: ({children}) => <ul className="mb-3 ml-4 space-y-1">{children}</ul>,
+                                        ol: ({children}) => <ol className="mb-3 ml-4 space-y-1 list-decimal">{children}</ol>,
+                                        li: ({children}) => <li className="text-slate-300 before:content-['•'] before:text-purple-400 before:mr-2 before:font-bold">{children}</li>,
+                                        
+                                        // Inline code
+                                        code: ({className, children, ...props}) => {
+                                            const isInline = !className;
+                                            if (isInline) {
+                                                return (
+                                                    <code className="px-1.5 py-0.5 bg-slate-800 text-emerald-400 rounded text-xs font-mono border border-slate-700" {...props}>
+                                                        {children}
+                                                    </code>
+                                                );
+                                            }
+                                            return (
+                                                <code className={className} {...props}>
+                                                    {children}
+                                                </code>
+                                            );
+                                        },
+                                        
+                                        // Code blocks
+                                        pre: ({children}) => (
+                                            <pre className="mb-3 p-3 bg-slate-950 rounded-lg border border-slate-700 overflow-x-auto">
+                                                <code className="text-xs font-mono text-emerald-400 leading-relaxed">
+                                                    {children}
+                                                </code>
+                                            </pre>
+                                        ),
+                                        
+                                        // Strong/Bold
+                                        strong: ({children}) => <strong className="font-bold text-purple-300">{children}</strong>,
+                                        
+                                        // Emphasis/Italic
+                                        em: ({children}) => <em className="italic text-slate-400">{children}</em>,
+                                        
+                                        // Blockquotes
+                                        blockquote: ({children}) => (
+                                            <blockquote className="mb-3 pl-3 border-l-2 border-purple-500 text-slate-400 italic">
+                                                {children}
+                                            </blockquote>
+                                        ),
+                                        
+                                        // Horizontal rules
+                                        hr: () => <hr className="my-4 border-slate-700" />,
+                                    }}
+                                >
+                                    {explanation}
+                                </ReactMarkdown>
+                            </div>
                         </div>
                     )}
                 </div>
