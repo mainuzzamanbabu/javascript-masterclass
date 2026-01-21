@@ -72,8 +72,42 @@ console.log("Is it raining?", isRaining);
 console.log("Value of unknown:", unknown);`
   },
   {
+    id: 'string-methods',
+    title: '4. String Methods',
+    type: SlideType.CODE,
+    content: `Strings have built-in **methods** that let you manipulate text.
+
+These methods don't change the original string—they return a new one.`,
+    bullets: [
+      "`.length`: Returns the number of characters.",
+      "`.toUpperCase()` / `.toLowerCase()`: Change case.",
+      "`.slice(start, end)`: Extract a portion of the string.",
+      "`.includes('text')`: Check if a string contains something.",
+      "`.split('separator')`: Break a string into an array."
+    ],
+    defaultCode: `let message = "  Hello, JavaScript World!  ";
+
+console.log("Length:", message.length);
+console.log("Uppercase:", message.toUpperCase());
+console.log("Lowercase:", message.toLowerCase());
+
+// Remove extra spaces
+let trimmed = message.trim();
+console.log("Trimmed:", trimmed);
+
+// Extract part of the string
+console.log("Slice 0-5:", trimmed.slice(0, 5)); // Hello
+
+// Check if it contains a word
+console.log("Has 'JavaScript'?", trimmed.includes("JavaScript"));
+
+// Split into an array
+let words = trimmed.split(" ");
+console.log("Words:", words);`
+  },
+  {
     id: 'operators',
-    title: '4. Operators',
+    title: '5. Operators',
     type: SlideType.CODE,
     content: `Operators allow us to manipulate values.
 
@@ -100,7 +134,7 @@ console.log("Remainder of 10 / 3:", 10 % 3);`
   },
   {
     id: 'conditionals',
-    title: '5. Conditional Logic',
+    title: '6. Conditional Logic',
     type: SlideType.CODE,
     content: `We use \`if\`, \`else if\`, and \`else\` to run specific code based on conditions.
 
@@ -129,8 +163,39 @@ if (isWeekend || age > 60) {
 }`
   },
   {
+    id: 'ternary',
+    title: '7. Ternary Operator',
+    type: SlideType.CODE,
+    content: `The **Ternary Operator** is a shortcut for simple if/else statements.
+
+**Syntax**: \`condition ? valueIfTrue : valueIfFalse\`
+
+It's great for quick decisions, but avoid nesting them (it gets confusing!).`,
+    bullets: [
+      "Returns one of two values based on a condition.",
+      "Useful for setting variables or inline decisions.",
+      "Keep it simple—use if/else for complex logic."
+    ],
+    defaultCode: `let age = 20;
+
+// Instead of:
+// if (age >= 18) { status = "Adult"; } else { status = "Minor"; }
+
+// Use ternary:
+let status = age >= 18 ? "Adult" : "Minor";
+console.log("Status:", status);
+
+// Use in console.log directly
+console.log("Can vote?", age >= 18 ? "Yes" : "No");
+
+// Another example
+let score = 85;
+let grade = score >= 90 ? "A" : score >= 80 ? "B" : "C";
+console.log("Grade:", grade);`
+  },
+  {
     id: 'loops',
-    title: '6. Loops',
+    title: '8. For Loops',
     type: SlideType.CODE,
     content: `Loops repeat a block of code. The \`for\` loop is the most common tool for this.
 
@@ -152,8 +217,39 @@ for (let i = 10; i > 0; i -= 2) {
 }`
   },
   {
+    id: 'while-loops',
+    title: '9. While & Do-While Loops',
+    type: SlideType.CODE,
+    content: `**While loops** run as long as a condition is true. Use them when you don't know how many times to loop.
+
+**Do-While** always runs at least once, then checks the condition.`,
+    bullets: [
+      "`while (condition) { ... }` - Checks first, then runs.",
+      "`do { ... } while (condition)` - Runs first, then checks.",
+      "Be careful of infinite loops!"
+    ],
+    defaultCode: `// While loop - keep going until condition is false
+let countdown = 5;
+console.log("--- While Loop ---");
+while (countdown > 0) {
+  console.log("T-minus:", countdown);
+  countdown--;
+}
+console.log("Liftoff!");
+
+// Do-While - always runs at least once
+let attempts = 0;
+console.log("\n--- Do-While Loop ---");
+do {
+  attempts++;
+  console.log("Attempt #" + attempts);
+} while (attempts < 3);
+
+console.log("Done after", attempts, "attempts");`
+  },
+  {
     id: 'functions',
-    title: '7. Functions',
+    title: '10. Functions',
     type: SlideType.CODE,
     content: `Functions are reusable recipes for code. They take **Arguments** (inputs) and return a **Result** (output).
 
@@ -178,7 +274,7 @@ console.log("Total:", room1 + room2);
   },
   {
     id: 'scope',
-    title: '8. Scope (Global vs Local)',
+    title: '11. Scope (Global vs Local)',
     type: SlideType.CONCEPT,
     content: `**Scope** determines where your variables are visible.
 
@@ -202,7 +298,7 @@ console.log("Outside:", globalVar); // Works
   },
   {
     id: 'arrays',
-    title: '9. Arrays',
+    title: '12. Arrays',
     type: SlideType.CODE,
     content: `Arrays are ordered lists of data.
 
@@ -226,8 +322,73 @@ console.log("Removed:", removed);
 console.log("Remaining:", fruits);`
   },
   {
+    id: 'array-foreach',
+    title: '13. Array Iteration (forEach)',
+    type: SlideType.CODE,
+    content: `**forEach** is a clean way to loop through arrays without writing a \`for\` loop.
+
+It calls a function for each item in the array.`,
+    bullets: [
+      "`.forEach(function)` - Runs the function for each item.",
+      "The function receives: (item, index, array).",
+      "Cannot use `break` or `return` to exit early."
+    ],
+    defaultCode: `let colors = ["Red", "Green", "Blue"];
+
+console.log("--- Basic forEach ---");
+colors.forEach(function(color) {
+  console.log("Color:", color);
+});
+
+// With index
+console.log("\n--- With Index ---");
+colors.forEach(function(color, index) {
+  console.log(index + 1 + ".", color);
+});
+
+// Arrow function version (preview of ES6)
+console.log("\n--- Arrow Function ---");
+colors.forEach((color, i) => console.log(\`Item \${i}: \${color}\`));`
+  },
+  {
+    id: 'array-methods-advanced',
+    title: '14. More Array Methods',
+    type: SlideType.CODE,
+    content: `Arrays have many useful built-in methods for adding, removing, and searching.`,
+    bullets: [
+      "`.shift()` / `.unshift()`: Remove/add at the beginning.",
+      "`.splice(start, count)`: Remove items at any position.",
+      "`.includes(item)`: Check if an item exists.",
+      "`.indexOf(item)`: Find the position of an item.",
+      "`.join(separator)`: Convert array to string."
+    ],
+    defaultCode: `let tasks = ["Email", "Meeting", "Lunch", "Report"];
+console.log("Original:", tasks);
+
+// Add to beginning
+tasks.unshift("Coffee");
+console.log("After unshift:", tasks);
+
+// Remove from beginning
+let first = tasks.shift();
+console.log("Removed:", first);
+console.log("After shift:", tasks);
+
+// Remove 2 items starting at index 1
+tasks.splice(1, 2);
+console.log("After splice(1,2):", tasks);
+
+// Search methods
+console.log("\n--- Searching ---");
+console.log("Includes 'Report'?", tasks.includes("Report"));
+console.log("Index of 'Email':", tasks.indexOf("Email"));
+
+// Join into a string
+console.log("Joined:", tasks.join(" -> "));`
+  },
+  {
     id: 'objects',
-    title: '10. Objects',
+    title: '15. Objects',
     type: SlideType.CODE,
     content: `Objects model real-world things using **Properties** (variables) and **Methods** (functions).
 
@@ -256,8 +417,51 @@ player.lives = 0;
 console.log("Game Over?", player.lives === 0);`
   },
   {
+    id: 'error-handling',
+    title: '16. Error Handling',
+    type: SlideType.CODE,
+    content: `**Try/Catch** lets you handle errors gracefully instead of crashing.
+
+*   **try**: Code that might fail.
+*   **catch**: What to do if it fails.
+*   **finally**: Always runs (optional).`,
+    bullets: [
+      "Wrap risky code in `try { }`.",
+      "`catch(error)` receives the error object.",
+      "Use `throw` to create custom errors."
+    ],
+    defaultCode: `// Basic try/catch
+console.log("--- Basic Error Handling ---");
+try {
+  let result = JSON.parse("not valid json");
+  console.log(result);
+} catch (error) {
+  console.log("Caught error:", error.message);
+}
+
+console.log("Program continues!\n");
+
+// Throwing custom errors
+console.log("--- Custom Errors ---");
+function divide(a, b) {
+  if (b === 0) {
+    throw new Error("Cannot divide by zero!");
+  }
+  return a / b;
+}
+
+try {
+  console.log("10 / 2 =", divide(10, 2));
+  console.log("10 / 0 =", divide(10, 0)); // This throws!
+} catch (err) {
+  console.log("Error:", err.message);
+} finally {
+  console.log("Division complete.");
+}`
+  },
+  {
     id: 'dom-selection',
-    title: '11. DOM: Selecting Elements',
+    title: '17. DOM: Selecting Elements',
     type: SlideType.CODE,
     content: `The **DOM** (Document Object Model) is the bridge between JS and HTML.
 
@@ -284,7 +488,7 @@ console.log("Content updated.");`
   },
   {
     id: 'dom-styling',
-    title: '12. DOM: Changing Styles',
+    title: '18. DOM: Changing Styles',
     type: SlideType.CODE,
     content: `You can change CSS via JavaScript using the \`.style\` property.
 
@@ -312,7 +516,7 @@ box.style.border = "4px solid #312e81";`
   },
   {
     id: 'dom-events',
-    title: '13. DOM: Events',
+    title: '19. DOM: Events',
     type: SlideType.CODE,
     content: `This is where the magic happens. **Events** let your code react to user actions.
 
@@ -431,8 +635,70 @@ const [first, second] = numbers;
 console.log("First number:", first);`
   },
   {
+    id: 'spread-operator',
+    title: '5. Spread Operator',
+    type: SlideType.CODE,
+    content: `The **Spread Operator** (\`...\`) expands arrays or objects into their individual elements.
+
+It's incredibly useful for copying, merging, and passing data.`,
+    bullets: [
+      "`[...arr]`: Copy an array.",
+      "`[...arr1, ...arr2]`: Merge arrays.",
+      "`{...obj1, ...obj2}`: Merge objects.",
+      "Spread in function calls: `func(...args)`"
+    ],
+    defaultCode: `// Copy an array (not a reference!)
+let original = [1, 2, 3];
+let copy = [...original];
+copy.push(4);
+console.log("Original:", original);
+console.log("Copy:", copy);
+
+// Merge arrays
+let arr1 = ["a", "b"];
+let arr2 = ["c", "d"];
+let merged = [...arr1, ...arr2];
+console.log("Merged:", merged);
+
+// Merge objects
+let defaults = { theme: "dark", lang: "en" };
+let userPrefs = { lang: "es" };
+let settings = { ...defaults, ...userPrefs };
+console.log("Settings:", settings);`
+  },
+  {
+    id: 'rest-parameters',
+    title: '6. Rest Parameters',
+    type: SlideType.CODE,
+    content: `**Rest Parameters** (\`...\`) collect multiple arguments into an array.
+
+It's the opposite of spread—it gathers things together.`,
+    bullets: [
+      "Use in function definitions: `function(...args)`.",
+      "Must be the last parameter.",
+      "Great for functions with variable arguments."
+    ],
+    defaultCode: `// Collect all arguments into an array
+function sum(...numbers) {
+  console.log("Numbers:", numbers);
+  return numbers.reduce((total, n) => total + n, 0);
+}
+
+console.log("Sum:", sum(1, 2, 3, 4, 5));
+console.log("Sum:", sum(10, 20));
+
+// Combine with regular parameters
+function greet(greeting, ...names) {
+  names.forEach(name => {
+    console.log(\`\${greeting}, \${name}!\`);
+  });
+}
+
+greet("Hello", "Alice", "Bob", "Charlie");`
+  },
+  {
     id: 'array-methods',
-    title: '5. Map & Filter',
+    title: '7. Map & Filter',
     type: SlideType.CODE,
     content: `Modern array methods let you transform data cleanly without manual loops.`,
     bullets: [
@@ -451,7 +717,7 @@ console.log("Expensive items:", expensive);`
   },
   {
     id: 'classes',
-    title: '6. Classes',
+    title: '8. Classes',
     type: SlideType.CODE,
     content: `Classes are syntactic sugar over JavaScript's prototype-based inheritance.`,
     bullets: [
@@ -474,7 +740,7 @@ console.log(bot.speak());`
   },
   {
     id: 'promises',
-    title: '7. Promises & Async/Await',
+    title: '9. Promises & Async/Await',
     type: SlideType.CODE,
     content: `Handling asynchronous operations (like fetching data) is cleaner with Promises and Async/Await.`,
     bullets: [
@@ -494,6 +760,42 @@ async function getData() {
 }
 
 getData();`
+  },
+  {
+    id: 'modules',
+    title: '10. Modules (import/export)',
+    type: SlideType.CONCEPT,
+    content: `**Modules** let you split code into separate files and share functionality between them.
+
+This is how modern JavaScript projects are organized.`,
+    bullets: [
+      "`export` makes functions/variables available to other files.",
+      "`import { name } from './file.js'` brings them in.",
+      "`export default` for a single main export per file."
+    ],
+    defaultCode: `// Note: Modules require a build tool or server.
+// This is a conceptual example.
+
+// ---- math.js ----
+// export const add = (a, b) => a + b;
+// export const multiply = (a, b) => a * b;
+// export default function subtract(a, b) { return a - b; }
+
+// ---- app.js ----
+// import subtract, { add, multiply } from './math.js';
+// console.log(add(2, 3));        // 5
+// console.log(multiply(4, 5));   // 20
+// console.log(subtract(10, 3));  // 7
+
+// For now, let's demonstrate the concept:
+const mathModule = {
+  add: (a, b) => a + b,
+  multiply: (a, b) => a * b
+};
+
+console.log("add(2, 3):", mathModule.add(2, 3));
+console.log("multiply(4, 5):", mathModule.multiply(4, 5));
+console.log("\nIn real projects, use import/export!");`
   }
 ];
 
