@@ -31,9 +31,9 @@ const Slide: React.FC<SlideProps> = ({ data }) => {
   };
 
   return (
-    <div className="h-full flex flex-col justify-center animate-fade-in p-2">
-      <div className="mb-6">
-        <h1 className="text-4xl md:text-5xl font-extrabold text-slate-800 tracking-tight mb-2">
+    <div className="h-full flex flex-col animate-fade-in p-2 overflow-y-auto">
+      <div className="mb-4">
+        <h1 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-slate-800 tracking-tight mb-2">
             {data.title}
         </h1>
         <div className="h-1 w-20 bg-indigo-600 rounded-full"></div>

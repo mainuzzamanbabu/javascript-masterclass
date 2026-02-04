@@ -116,12 +116,13 @@ const CodePlayground: React.FC<CodePlaygroundProps> = ({ initialCode }) => {
 
       <div className="flex-1 flex flex-col lg:flex-row h-full overflow-hidden">
         {/* Editor Area */}
-        <div className="flex-1 lg:flex-[1.2] relative flex flex-col border-r border-slate-700">
+        <div className="flex-1 lg:flex-[1.2] relative flex flex-col border-r border-slate-700 overflow-hidden">
              <textarea
                 value={code}
                 onChange={(e) => setCode(e.target.value)}
-                className="w-full h-full p-4 bg-slate-900 text-slate-100 font-mono text-sm resize-none focus:outline-none focus:ring-1 focus:ring-slate-700 leading-relaxed"
+                className="w-full h-full p-4 bg-slate-900 text-slate-100 font-mono text-sm resize-none focus:outline-none focus:ring-1 focus:ring-slate-700 leading-relaxed overflow-auto whitespace-pre"
                 spellCheck={false}
+                wrap="off"
             />
         </div>
 

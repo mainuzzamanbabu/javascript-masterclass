@@ -1,8 +1,13 @@
 export enum SlideType {
-  INTRO = 'INTRO',
-  CONCEPT = 'CONCEPT',
-  CODE = 'CODE',
-  SUMMARY = 'SUMMARY'
+  INTRO = "INTRO",
+  CONCEPT = "CONCEPT",
+  CODE = "CODE",
+  SUMMARY = "SUMMARY",
+}
+
+export enum Language {
+  JAVASCRIPT = "javascript",
+  PYTHON = "python",
 }
 
 export interface Slide {
@@ -11,11 +16,14 @@ export interface Slide {
   type: SlideType;
   content: string; // Markdown supported
   defaultCode?: string; // Initial code for the playground
+  expectedOutput?: string; // Expected output for Python (run locally)
   bullets?: string[];
+  realWorldExample?: string; // Real-world scenario explanation
+  language?: Language; // Language of the slide (default: JavaScript)
 }
 
 export interface ChatMessage {
-  role: 'user' | 'model';
+  role: "user" | "model";
   text: string;
 }
 

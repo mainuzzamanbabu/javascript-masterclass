@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { BASIC_SLIDES, ES6_SLIDES } from './constants';
+import { ALL_PYTHON_SLIDES } from './pythonConstants';
 import Slide from './components/Slide';
 import CodePlayground from './components/CodePlayground';
 import AITutor from './components/AITutor';
 import Quiz from './components/Quiz';
-import { ChevronLeft, ChevronRight, Menu, X, BookOpen, Terminal, MessagesSquare, GraduationCap, Zap } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Menu, X, BookOpen, Terminal, MessagesSquare, GraduationCap, Zap, Code2 } from 'lucide-react';
 
-type CourseType = 'BASIC' | 'ES6';
+type CourseType = 'BASIC' | 'ES6' | 'PYTHON';
 
 const App = () => {
   const [courseType, setCourseType] = useState<CourseType>('BASIC');
@@ -15,7 +16,7 @@ const App = () => {
   const [activeTab, setActiveTab] = useState<'playground' | 'tutor' | 'quiz'>('playground');
 
   // Determine current slides based on course type
-  const slides = courseType === 'BASIC' ? BASIC_SLIDES : ES6_SLIDES;
+  const slides = courseType === 'BASIC' ? BASIC_SLIDES : courseType === 'ES6' ? ES6_SLIDES : ALL_PYTHON_SLIDES;
   const currentSlide = slides[currentSlideIndex];
   const isLastSlide = currentSlideIndex === slides.length - 1;
   const isFirstSlide = currentSlideIndex === 0;
@@ -52,10 +53,10 @@ const App = () => {
         <div className="p-4 border-b border-slate-100">
              <div className="flex items-center gap-2 text-indigo-600 font-bold text-xl mb-4">
                 <BookOpen size={24} />
-                <span>JS Master</span>
+                <span>{courseType === 'PYTHON' ? 'Python Master' : 'JS Master'}</span>
             </div>
             
-            {/* Sidebar toggle for course (Optional: redundancy for better UX) */}
+            {/* Sidebar toggle for course */}
             <div className="flex flex-col gap-2">
                  <button 
                     onClick={() => { setCourseType('BASIC'); setShowSidebar(false); }}
@@ -69,12 +70,18 @@ const App = () => {
                  >
                     ES6+ Modern
                  </button>
+                 <button 
+                    onClick={() => { setCourseType('PYTHON'); setShowSidebar(false); }}
+                    className={`text-left px-3 py-2 rounded-md text-sm font-semibold transition-colors ${courseType === 'PYTHON' ? 'bg-emerald-100 text-emerald-700' : 'text-slate-600 hover:bg-slate-50'}`}
+                 >
+                    🐍 Python
+                 </button>
             </div>
         </div>
         
         <nav className="p-4 space-y-1 overflow-y-auto h-[calc(100vh-180px)]">
             <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 px-2">
-                {courseType === 'BASIC' ? 'Basic Curriculum' : 'ES6+ Curriculum'}
+                {courseType === 'BASIC' ? 'Basic Curriculum' : courseType === 'ES6' ? 'ES6+ Curriculum' : 'Python Curriculum'}
             </h4>
             {slides.map((slide, idx) => (
                 <button
@@ -86,14 +93,14 @@ const App = () => {
                     }}
                     className={`w-full text-left px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                         currentSlideIndex === idx 
-                        ? (courseType === 'BASIC' ? 'bg-blue-50 text-blue-700' : 'bg-purple-50 text-purple-700')
+                        ? (courseType === 'BASIC' ? 'bg-blue-50 text-blue-700' : courseType === 'ES6' ? 'bg-purple-50 text-purple-700' : 'bg-emerald-50 text-emerald-700')
                         : 'text-slate-600 hover:bg-slate-50'
                     }`}
                 >
                     <div className="flex items-center gap-3">
                         <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs flex-shrink-0 ${
                             currentSlideIndex === idx 
-                            ? (courseType === 'BASIC' ? 'bg-blue-200 text-blue-800' : 'bg-purple-200 text-purple-800')
+                            ? (courseType === 'BASIC' ? 'bg-blue-200 text-blue-800' : courseType === 'ES6' ? 'bg-purple-200 text-purple-800' : 'bg-emerald-200 text-emerald-800')
                             : 'bg-slate-100 text-slate-500'
                         }`}>
                             {idx + 1}
@@ -115,8 +122,8 @@ const App = () => {
                     <Menu size={24} />
                 </button>
                 <div className="flex items-center gap-2">
-                    <span className={`px-2 py-1 rounded text-xs font-bold ${courseType === 'BASIC' ? 'bg-blue-100 text-blue-700' : 'bg-purple-100 text-purple-700'}`}>
-                        {courseType === 'BASIC' ? 'BASIC JS' : 'ES6+'}
+                    <span className={`px-2 py-1 rounded text-xs font-bold ${courseType === 'BASIC' ? 'bg-blue-100 text-blue-700' : courseType === 'ES6' ? 'bg-purple-100 text-purple-700' : 'bg-emerald-100 text-emerald-700'}`}>
+                        {courseType === 'BASIC' ? 'BASIC JS' : courseType === 'ES6' ? 'ES6+' : '🐍 PYTHON'}
                     </span>
                     <span className="font-semibold text-slate-800 text-sm hidden sm:inline">
                          Module {currentSlideIndex + 1} of {slides.length}
@@ -125,22 +132,32 @@ const App = () => {
             </div>
 
             {/* Course Switcher in Header */}
-            <div className="flex items-center gap-2">
-                {courseType === 'BASIC' ? (
-                     <button 
-                        onClick={() => setCourseType('ES6')}
-                        className="flex items-center gap-2 px-3 py-1.5 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-full text-xs font-bold hover:shadow-md transition-all hover:scale-105"
-                     >
-                        <Zap size={14} />
-                        Go to ES6 Masterclass
-                     </button>
-                ) : (
+            <div className="flex items-center gap-1 sm:gap-2">
+                {courseType !== 'BASIC' && (
                     <button 
                         onClick={() => setCourseType('BASIC')}
-                        className="flex items-center gap-2 px-3 py-1.5 bg-white border border-slate-200 text-slate-600 rounded-full text-xs font-bold hover:bg-slate-50 transition-all"
+                        className="flex items-center gap-1 px-2 sm:px-3 py-1.5 bg-white border border-slate-200 text-slate-600 rounded-full text-xs font-bold hover:bg-slate-50 transition-all"
                     >
                         <GraduationCap size={14} />
-                        Back to Basics
+                        <span className="hidden sm:inline">Basics</span>
+                    </button>
+                )}
+                {courseType !== 'ES6' && (
+                     <button 
+                        onClick={() => setCourseType('ES6')}
+                        className="flex items-center gap-1 px-2 sm:px-3 py-1.5 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-full text-xs font-bold hover:shadow-md transition-all hover:scale-105"
+                     >
+                        <Zap size={14} />
+                        <span className="hidden sm:inline">ES6+</span>
+                     </button>
+                )}
+                {courseType !== 'PYTHON' && (
+                    <button 
+                        onClick={() => setCourseType('PYTHON')}
+                        className="flex items-center gap-1 px-2 sm:px-3 py-1.5 bg-gradient-to-r from-emerald-600 to-teal-600 text-white rounded-full text-xs font-bold hover:shadow-md transition-all hover:scale-105"
+                    >
+                        <Code2 size={14} />
+                        <span className="hidden sm:inline">Python</span>
                     </button>
                 )}
             </div>
@@ -170,7 +187,9 @@ const App = () => {
                             className={`flex items-center gap-2 px-6 py-2 rounded-lg text-white font-medium shadow-md transition-all ${
                                 courseType === 'BASIC' 
                                 ? 'bg-blue-600 hover:bg-blue-700 shadow-blue-200 disabled:opacity-50' 
-                                : 'bg-purple-600 hover:bg-purple-700 shadow-purple-200 disabled:opacity-50'
+                                : courseType === 'ES6'
+                                ? 'bg-purple-600 hover:bg-purple-700 shadow-purple-200 disabled:opacity-50'
+                                : 'bg-emerald-600 hover:bg-emerald-700 shadow-emerald-200 disabled:opacity-50'
                             }`}
                         >
                             {isLastSlide ? 'Complete' : 'Next'}
